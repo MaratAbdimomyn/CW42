@@ -7,6 +7,14 @@ from django.shortcuts import get_object_or_404
 @receiver(post_save, sender=User)
 def create_favorites(sender, created, instance, **kwargs):
     if created:
+        s = User.objects.all()
+        x = Favorites.objects.all()
+        r = []
+        for e in s:
+            r.append(e.id)
+        for i in x:
+            if i.user_id not in r:
+                print(i.user_id)
         Favorites.objects.create(user=instance)
 
 @receiver(post_save, sender=User)
@@ -15,4 +23,5 @@ def update_favorites(sender, created, instance, **kwargs):
 
 @receiver(pre_delete, sender=User)
 def delete_favorites(sender, instance, *args, **kwargs):
-    Favorites.objects.get(user=instance)
+    if instance in Favorites:
+        Favorites.objects.get(user=instance)
