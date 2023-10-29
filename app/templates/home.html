@@ -7,9 +7,17 @@
     <title>Document</title>
 </head>
 <body>
+    <h2>Все пользователи</h2>
+    <h3>Изменить записи</h3>
     <ul>
         {% for i in users %}
-        <li><a href="{% url 'delete' i.id %}">{{ i.username }}</a></li>
+        <li><a href="{% url 'update' i.id %}">{{ i.username }}</a></li>
+        {% endfor %}
+    </ul>
+    <h3>Удалить записи</h3>
+    <ul>
+        {% for j in users %}
+        <li><a href="{% url 'delete' j.id %}">{{ j.username }}</a></li>
         {% endfor %}
     </ul>
     <ul>
@@ -17,5 +25,6 @@
         <li>{{ s.user.username }}</li>
         {% endfor %}
     </ul>
+    <a href="{% url 'signup' %}">Зарегаться</a>
 </body>
 </html>

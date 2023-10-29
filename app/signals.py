@@ -1,4 +1,4 @@
-from django.db.models.signals import post_save, post_delete
+from django.db.models.signals import post_save, pre_delete
 from django.dispatch import receiver
 from django.contrib.auth.models import User
 from .models import *
@@ -13,6 +13,6 @@ def create_favorites(sender, created, instance, **kwargs):
 def update_favorites(sender, created, instance, **kwargs):
     Favorites.objects.get_or_create(user=instance)
 
-@receiver(post_delete, sender=User)
-def update_favorites(sender, instance, **kwargs):
-    Favorites.objects.delete(user=instance)
+@receiver(pre_delete, sender=User)
+def delete_favorites(sender, instance, *args, **kwargs):
+    Favorites.objects.get(user=instance)
